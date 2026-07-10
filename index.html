@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SALDO — controle de gastos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<body>
+<div class="wrap">
+
+  <div class="tabs">
+    <button type="button" class="tab-btn active" data-tab="saldo">Saldo</button>
+    <button type="button" class="tab-btn" data-tab="sonhos">Sonhos</button>
+    <button type="button" class="tab-btn" data-tab="party">Party</button>
+  </div>
+
+  <div id="viewSaldo" class="view">
+
+  <div class="hero">
+    <div class="hero-top">
+      <div>
+        <div class="eyebrow">Controle de saldo pessoal</div>
+        <h1>SALDO</h1>
+      </div>
+      <div id="stamp" class="stamp pos">CARREGANDO</div>
+    </div>
+    <div class="balance-line">
+      <div class="balance-label">SALDO ATUAL</div>
+      <div id="balanceValue" class="balance-value pos">R$ 0,00</div>
+    </div>
+  </div>
+
+  <div class="stats">
+    <div class="stat">
+      <div class="stat-label"><span class="dot" style="background:var(--gold-soft)"></span>Depositado</div>
+      <div id="statDepositado" class="stat-value">R$ 0,00</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label"><span class="dot" style="background:var(--blood)"></span>Gasto</div>
+      <div id="statGasto" class="stat-value">R$ 0,00</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label"><span class="dot" style="background:var(--gold-dim)"></span>Guardado</div>
+      <div id="statInvestido" class="stat-value">R$ 0,00</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label"><span class="dot" style="background:var(--muted)"></span>Lançamentos</div>
+      <div id="statCount" class="stat-value">0</div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2>Novo lançamento</h2>
+    <form id="txForm">
+      <div class="field full">
+        <label>Tipo</label>
+        <div class="type-toggle" id="typeToggle">
+          <button type="button" data-type="deposito" class="active">Depósito</button>
+          <button type="button" data-type="gasto">Gasto</button>
+        </div>
+      </div>
+      <div class="field">
+        <label>Descrição</label>
+        <input type="text" id="fDesc" placeholder="Ex: salário, mercado, aluguel" required>
+      </div>
+      <div class="field">
+        <label>Valor (R$)</label>
+        <input type="text" inputmode="numeric" id="fValor" placeholder="0,00" required>
+      </div>
+      <div class="field field-categoria" id="fieldCategoria">
+        <label>Categoria</label>
+        <select id="fCategoria">
+          <option>Alimentação</option>
+          <option>Transporte</option>
+          <option>Moradia</option>
+          <option>Lazer</option>
+          <option>Saúde</option>
+          <option>Assinaturas</option>
+          <option>Outros</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Data</label>
+        <input type="date" id="fData" required>
+      </div>
+      <button type="submit" class="submit-btn">Registrar</button>
+    </form>
+  </div>
+
+  <div class="panel" id="barsPanel" style="display:none;">
+    <h2>Onde o saldo mais sangra (gastos por categoria)</h2>
+    <div class="bars" id="barsContainer"></div>
+  </div>
+
+  <div id="months">
+    <div class="loading">carregando seus lançamentos...</div>
+  </div>
+
+  <div class="panel">
+    <h2>Seus dados</h2>
+    <p style="font-size:12.5px; color:var(--muted); margin:0 0 14px; line-height:1.6;">
+      Tudo o que você registra fica guardado vinculado à sua conta, mês a mês. Aqui você pode ver e copiar os dados brutos a qualquer momento.
+    </p>
+    <button type="button" id="btnExport" class="submit-btn" style="grid-column:auto; width:auto; padding:10px 18px; background:var(--panel-alt); color:var(--ink); border:1px solid var(--line);">Ver / copiar dados brutos</button>
+    <pre id="exportBox" style="display:none; margin-top:14px; background:var(--panel-alt); border:1px solid var(--line); border-radius:var(--radius); padding:14px; font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--muted); max-height:260px; overflow:auto; white-space:pre-wrap;"></pre>
+  </div>
+
+  </div>
+
+  <div id="viewSonhos" class="view" style="display:none;">
+
+  <div class="hero">
+    <div class="eyebrow">Guardando pra fazer acontecer</div>
+    <h1>SONHOS</h1>
+    <div class="balance-line">
+      <div class="balance-label">TOTAL GUARDADO EM SONHOS</div>
+      <div id="sonhosTotalValue" class="balance-value pos">R$ 0,00</div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2>Criar sonho</h2>
+    <form id="formSonho">
+      <div class="field">
+        <label>Nome do sonho</label>
+        <input type="text" id="sonhoNome" placeholder="Ex: Moto foda, Notebook gamer" required>
+      </div>
+      <div class="field">
+        <label>Valor da meta (R$)</label>
+        <input type="text" inputmode="numeric" class="mask-money" id="sonhoMeta" placeholder="0,00" required>
+      </div>
+      <button type="submit" class="submit-btn">Criar sonho</button>
+    </form>
+  </div>
+
+  <div id="sonhosList">
+    <div class="loading">carregando seus sonhos...</div>
+  </div>
+
+  </div>
+
+  <div id="viewParty" class="view" style="display:none;">
+
+  <div class="hero">
+    <div class="eyebrow">Quem guarda mais grana?</div>
+    <h1>PARTY</h1>
+    <p style="font-size:12.5px; color:var(--muted); margin:14px 0 0; line-height:1.7; max-width:520px;">
+      Compare seu progresso com os amigos. Gera o seu código, manda no zap, e cola o código que eles te mandarem de volta pra ver o ranking.
+    </p>
+  </div>
+
+  <div class="panel">
+    <h2>Seu placar</h2>
+    <form id="formApelido" style="margin-bottom:16px;">
+      <div class="field full">
+        <label>Seu nome / apelido</label>
+        <input type="text" id="meuApelido" placeholder="Ex: Gui, Fefê, Zé" required>
+      </div>
+      <button type="submit" class="submit-btn">Salvar apelido</button>
+    </form>
+    <p style="font-size:12px; color:var(--muted); margin:0 0 14px;">
+      Placar a compartilhar (soma de tudo que você já guardou nos seus sonhos): <strong id="meuPlacarValor" style="color:var(--gold-soft);">R$ 0,00</strong>
+    </p>
+    <button type="button" id="btnGerarCodigo" class="submit-btn" style="width:auto; padding:10px 18px; background:var(--panel-alt); color:var(--ink); border:1px solid var(--line);">Gerar código pra mandar no zap</button>
+    <div id="codigoBox" style="display:none; margin-top:14px;">
+      <textarea id="codigoOutput" readonly style="width:100%; min-height:70px; background:var(--panel-alt); border:1px solid var(--line); border-radius:var(--radius); color:var(--ink); font-family:'JetBrains Mono',monospace; font-size:11px; padding:12px; resize:vertical;"></textarea>
+      <p style="font-size:11px; color:var(--muted); margin:8px 0 0;">Copiado! É só colar direto na conversa do zap.</p>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2>Colar código de um amigo</h2>
+    <form id="formColarCodigo">
+      <div class="field full">
+        <label>Cole aqui o código que ele te mandou</label>
+        <input type="text" id="codigoInput" placeholder="Cole o código aqui" required>
+      </div>
+      <button type="submit" class="submit-btn">Adicionar ao ranking</button>
+    </form>
+  </div>
+
+  <div class="panel">
+    <h2>Ranking da party</h2>
+    <div id="rankingList"></div>
+  </div>
+
+  </div>
+
+  <footer>escrituração privada &middot; apenas você tem a chave<br>desenvolvido por Wahington Junior — Rei Delas</footer>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
