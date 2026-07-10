@@ -1,4 +1,4 @@
-  :root{
+:root{
     --bg: #0a0a0c;
     --panel: #151318;
     --panel-alt: #1c1a20;
@@ -422,12 +422,38 @@
     flex-shrink:0;
   }
   .rank-row.top1 .rank-pos{ color: var(--gold-soft); }
-  .rank-name{ flex:1; font-size: 14px; }
+  .rank-name{ flex:1; font-size: 14px; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
   .rank-name.me::after{ content:' (você)'; color: var(--muted); font-size: 11.5px; }
   .rank-value{
     font-family:'JetBrains Mono', monospace;
     font-weight: 700;
     font-size: 14px;
     color: var(--gold-soft);
+    flex-shrink:0;
   }
   textarea:focus{ border-color: var(--gold-dim); outline:none; box-shadow: 0 0 0 3px rgba(201,162,39,0.15); }
+
+  /* ---------- MOBILE ---------- */
+  @media (max-width: 480px){
+    body{ padding: 20px 12px 60px; }
+    .hero{ padding: 24px 18px 20px; }
+    .hero-top{ flex-wrap: wrap; gap: 14px; }
+    .balance-value{ font-size: clamp(30px, 11vw, 44px); }
+    .stamp{ width: 78px; height: 78px; font-size: 10px; }
+    .tabs{ flex-wrap: wrap; }
+    .tab-btn{ flex: 1 1 auto; padding: 10px 12px; font-size: 10px; }
+    .panel{ padding: 18px; }
+    form{ grid-template-columns: 1fr; }
+    .field.full{ grid-column: 1; }
+    .goal-contribute{ flex-wrap: wrap; }
+    .goal-contribute input{ flex: 1 1 100%; }
+    .goal-contribute button{ flex: 1 1 100%; padding: 12px; }
+    .row{ padding: 12px 2px; gap: 6px; }
+    .row-date{ width: 30px; font-size: 10px; }
+    .row-leader{ margin: 0 4px; }
+    .row-amount{ min-width: 74px; font-size: 12.5px; }
+    .row-del{ padding: 2px 4px; }
+    .month-header{ padding: 12px 14px; }
+    .bar-row{ grid-template-columns: 80px 1fr 60px; gap: 8px; }
+    .rank-row{ gap: 8px; }
+  }
